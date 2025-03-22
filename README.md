@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/lSnKkmdT)
 
 # Sistema de notificaciones
@@ -19,3 +20,6 @@ El sistema debe contemplar los siguientes aspectos:
 Se les pide que diseñen una versión básica del sistema utilizando **UML** y los principios de la **POO**. El diseño debe permitir agregar fácilmente nuevos tipos de notificaciones y nuevos canales de comunicación sin modificar el código existente.
 
 Es importante aclarar que **no se busca diseñar ninguna interfaz gráfica**, ni los componentes que lo componen, sólo las **clases internas** que representan la notificación y los caminos que puede seguir.
+=======
+# notifications-Feyannibelli-1
+>>>>>>> bc3031b2fa32a0cf0ffdfc7f07583df54ee86756
