@@ -1,0 +1,122 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+' Enumeraciones
+enum NotificationType {
+  ALERT
+  REMINDER
+  PROMOTION
+}
+
+enum NotificationPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+' Clase de Preferencia de Usuario
+class UserPreference {
+  - type: NotificationType
+  - channels: List<INotificationChannel>
+  - priority: NotificationPriority
+  + getType(): NotificationType
+  + getChannels(): List<INotificationChannel>
+  + getPriority(): NotificationPriority
+}
+
+' Interfaces principales
+interface INotificationChannel {
+  + send(notification: Notification): void
+  + supports(type: NotificationType): boolean
+}
+
+interface INotificationConverter {
+  + convert(notification: Notification): Object
+}
+
+' Clase base de Notificación
+abstract class Notification {
+  - id: String
+  - content: String
+  - type: NotificationType
+  - priority: NotificationPriority
+  + getId(): String
+  + getContent(): String
+  + getType(): NotificationType
+  + getPriority(): NotificationPriority
+}
+
+' Canales de Notificación
+class EmailNotificationChannel {
+  + send(notification: Notification): void
+  + supports(type: NotificationType): boolean
+}
+
+class SMSNotificationChannel {
+  + send(notification: Notification): void
+  + supports(type: NotificationType): boolean
+}
+
+class PushNotificationChannel {
+  + send(notification: Notification): void
+  + supports(type: NotificationType): boolean
+}
+
+' Convertidores
+class EmailNotificationConverter {
+  + convert(notification: Notification): Object
+}
+
+class SMSNotificationConverter {
+  + convert(notification: Notification): Object
+}
+
+class PushNotificationConverter {
+  + convert(notification: Notification): Object
+}
+
+' Servicio de Notificaciones
+class NotificationService {
+  - channels: List<INotificationChannel>
+  - converters: List<INotificationConverter>
+  + registerChannel(channel: INotificationChannel): void
+  + registerConverter(converter: INotificationConverter): void
+  + sendNotification(notification: Notification, user: User): void
+}
+
+' Usuario
+class User {
+  - id: String
+  - name: String
+  - userPreferences: List<UserPreference>
+  + configureUserPreferences(preference: UserPreference): void
+  + getPreferredChannels(type: NotificationType): List<INotificationChannel>
+}
+
+' Relaciones
+' Conexiones de Notificación
+Notification "1" *-- "1" NotificationType
+Notification "1" *-- "1" NotificationPriority
+
+' Conexiones de Usuario y Preferencias
+User "1" o-- "*" UserPreference
+UserPreference "1" *-- "1" NotificationType
+UserPreference "1" *-- "1" NotificationPriority
+UserPreference o-- "*" INotificationChannel
+
+' Conexiones con Servicio de Notificaciones
+NotificationService o-- "*" INotificationChannel
+NotificationService o-- "*" INotificationConverter
+NotificationService ..> Notification
+
+' Implementaciones de Canales y Convertidores
+EmailNotificationChannel ..|> INotificationChannel
+SMSNotificationChannel ..|> INotificationChannel
+PushNotificationChannel ..|> INotificationChannel
+
+EmailNotificationConverter ..|> INotificationConverter
+SMSNotificationConverter ..|> INotificationConverter
+PushNotificationConverter ..|> INotificationConverter
+
+@enduml
