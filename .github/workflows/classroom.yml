@@ -21,9 +21,18 @@ jobs:
         setup-command: ''
         command: "./gradlew build"
         timeout: 5
+    - name: Coverage
+      id: coverage
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Coverage
+        setup-command: ''
+        command: "./gradlew test jacocoTestCoverageVerification"
+        timeout: 10
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
       env:
         BUILD_RESULTS: "${{steps.build.outputs.result}}"
+        COVERAGE_RESULTS: "${{steps.coverage.outputs.result}}"
       with:
-        runners: build
+        runners: build,coverage
